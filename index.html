@@ -693,6 +693,25 @@ function generateLeague(){
     mkP('hfsb15','Ana G. Vega',23)
     ];
   }
+  /* Eternals — Femenil Silver */
+  var etFS=cats[2].teams.find(function(t){return t.id==='et-fs';});
+  if(etFS){
+    etFS.players=[
+      mkP('etfs1','Gómez Hurtado Meredy Fabiola',29),
+      mkP('etfs2','Francia Paola Delgado Ortiz',27),
+      mkP('etfs3','Ximena Jacqueline Meraz Plascencia',59),
+      mkP('etfs4','Danna Valeria Tirado Navarro',90),
+      mkP('etfs5','Abigail Méndez Figueroa',31),
+      mkP('etfs6','Vanessa Yarazet Hernández Morales',50),
+      mkP('etfs7','Mhia Jocelyn Ibarra Castañeda',99),
+      mkP('etfs8','Andrea Soto Sandoval',87),
+      mkP('etfs9','Regina Ibarra',84),
+      mkP('etfs10','Michelle Meza',113),
+      mkP('etfs11','Karolina Negrete',7)
+    ];
+    var etFSFolios={etfs1:'44447',etfs2:'57813',etfs3:'60704',etfs4:'56910',etfs5:'44547',etfs6:'34034',etfs7:'65680',etfs8:'53803'};
+    etFS.players.forEach(function(p){if(etFSFolios[p.id])p.blurb='Folio: '+etFSFolios[p.id];});
+  }
   /* Hunters — U16 Femenil */
   var huU16F=cats[4].teams.find(function(t){return t.id==='hu-u16f';});
   if(huU16F){
@@ -847,6 +866,16 @@ function generateLeague(){
     mkP('azu16f7','Génesis Ayala',26),mkP('azu16f8','Melani Rojas',38),
     mkP('azu16f9','Fernanda Angulo',43),mkP('azu16f10','Diana Balderas',72),
     mkP('azu16f11','Danna Aguayo',54),mkP('azu16f12','Victoria Pompa',5)
+  ];}
+  var etU16F=cats[4].teams.find(function(t){return t.id==='et-u16f';});
+  if(etU16F){etU16F.players=[
+    mkP('etu16f1','Emily Lizarraga',2),mkP('etu16f2','Karla Ainek Hijar Montoya',11),
+    mkP('etu16f3','Sherlyn Guzman',14),mkP('etu16f4','María de Jesús Armenta Toscano',16),
+    mkP('etu16f5','Odalis Guadalupe Valdez Martínez',18),mkP('etu16f6','Valentina López Fonseca',19),
+    mkP('etu16f7','Aynora Gómezluna Peraza',28),mkP('etu16f8','Karina Lizbeth Martinez Tirado',31),
+    mkP('etu16f9','Frida Marlene Guzmán Sainz',42),mkP('etu16f10','Nicole Sainz Rios',55),
+    mkP('etu16f11','Nicole Elizabeth Flores Espinoza',62),mkP('etu16f12','Danna Paulina Castro Aldecoa',66),
+    mkP('etu16f13','Adriana Nahaliel Osuna Carrillo',75),mkP('etu16f14','Elizabeth Ulibarria Osuna',122)
   ];}
   var azU14F=cats[5].teams.find(function(t){return t.id==='az-u14f';});
   if(azU14F){azU14F.players=[
