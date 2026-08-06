@@ -854,7 +854,8 @@ function generateLeague(){
     mkP('azvg5','Leonardo González',50),mkP('azvg6','Juan C. Medina',4),
     mkP('azvg7','Luis Lizárraga',10),mkP('azvg8','José Torivio',70),
     mkP('azvg9','Néstor Olivares',5),mkP('azvg10','Leonidas Tirado',6),
-    mkP('azvg11','Ángel J. Martínez',66),mkP('azvg12','Ángel Vallejo',3)
+    mkP('azvg11','Ángel J. Martínez',66),mkP('azvg12','Ángel Vallejo',3),
+    mkP('azvg13','Johan Uriel Martínez Ricardo',21)
   ];}
   var azFS=cats[2].teams.find(function(t){return t.id==='az-fs';});
   if(azFS){azFS.players=[
@@ -872,7 +873,8 @@ function generateLeague(){
     mkP('azu18f7','Lidia Montes',98),mkP('azu18f8','Ximena Tirado',21),
     mkP('azu18f9','Mayte Llamas',11),mkP('azu18f10','Elizabeth Plata',77),
     mkP('azu18f11','Vanessa De la Cruz',24),mkP('azu18f12','Priscila Farber',7),
-    mkP('azu18f13','Noemí Guardado',35)
+    mkP('azu18f13','Noemí Guardado',35),
+    mkP('azu18f14','Josselyn Yamile Aguilar Salas',0)
   ];}
   var azU16F=cats[4].teams.find(function(t){return t.id==='az-u16f';});
   if(azU16F){azU16F.players=[
@@ -915,7 +917,10 @@ function generateLeague(){
     mkP('azms3','Néstor Olivares',5),mkP('azms4','Leonidas Tirado',6),
     mkP('azms5','Gamaliel Melchor',7),mkP('azms6','Luis Zataraín',54),
     mkP('azms7','Victoria Degollado',22),mkP('azms8','Shantal Zepeda',18),
-    mkP('azms9','Hanna Reyes',2),mkP('azms10','Génesis Ayala',26)
+    mkP('azms9','Hanna Reyes',2),mkP('azms10','Génesis Ayala',26),
+    mkP('azms11','Hanna Montserrat Landa Cortez',48),
+    mkP('azms12','Juan Carlos Medina',0),
+    mkP('azms13','Carol Dayana González Martínez',0)
   ];}
   var azU18M=cats[8].teams.find(function(t){return t.id==='az-u18m';});
   if(azU18M){azU18M.players=[
@@ -931,7 +936,8 @@ function generateLeague(){
     mkP('azu16m1','Rossy Anguiano',12),mkP('azu16m2','Marilyn Reyes',6),
     mkP('azu16m3','Fanny Ríos',13),mkP('azu16m4','Xanery Jaras',17),
     mkP('azu16m5','Esmeralda Camacho',19),mkP('azu16m6','Fernanda Angulo',43),
-    mkP('azu16m7','Ángel J. Martínez',66),mkP('azu16m8','Néstor Olivares',5)
+    mkP('azu16m7','Ángel J. Martínez',66),mkP('azu16m8','Néstor Olivares',5),
+    mkP('azu16m9','Juan Carlos Morales Valenzuela',0)
   ];}
 
   /* ── Halcones - Mixto Golden ── */
@@ -1807,7 +1813,7 @@ function generateLeague(){
   ps(4,'bp-u16f',4,0,6,0);
   ps(4,'hbl-u16f',8,0,-6,0);
   ps(4,'hbl-u16f',13,0,-6,0);
-  return{
+  var __result={
     league:'Flag Mazatlán',season:'Verano 2026',seasonStart:'2026-07-25',
     categories:cats,
     champions:[
@@ -1926,7 +1932,7 @@ function generateLeague(){
       {id:'j3-fs-01',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'6:30 PM',home:'Halconas',away:'Hunters Blue',field:'Campo 3',played:false,homeScore:0,awayScore:0},
       {id:'j3-fs-02',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'7:20 PM',home:'Upsin',away:'Aztecas',field:'Campo 3',played:false,homeScore:0,awayScore:0},
       {id:'j3-fs-03',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'6:30 PM',home:'Eternals',away:'Hunters White',field:'Campo 4',played:false,homeScore:0,awayScore:0},
-      {id:'j3-fs-04',jornada:3,catId:'femenil-silver-2',date:'2026-08-12',time:'8:30 PM',home:'Eternals',away:'Black Panthers',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-04',jornada:3,catId:'femenil-silver-2',date:'2026-08-12',time:'8:10 PM',home:'Eternals',away:'Black Panthers',field:'Campo 1',played:false,homeScore:0,awayScore:0},
       {id:'j3-fs-05',jornada:3,catId:'femenil-silver-2',date:'2026-08-12',time:'7:40 PM',home:'Black Panthers',away:'Linces',field:'Campo 3',played:false,homeScore:0,awayScore:0},
       {id:'j3-u16m-01',jornada:3,catId:'u16-mixto-9',date:'2026-08-07',time:'6:30 PM',home:'Hunters',away:'Redskins',field:'Campo 2',played:false,homeScore:0,awayScore:0},
       {id:'j3-u16m-02',jornada:3,catId:'u16-mixto-9',date:'2026-08-07',time:'6:30 PM',home:'Black Panthers',away:'Aztecas',field:'Campo 3',played:false,homeScore:0,awayScore:0},
@@ -1964,6 +1970,10 @@ function generateLeague(){
     ]},
     updatedAt:Date.now()
   };
+  __result.schedule.jornadas.forEach(function(m){
+    if(m.statsApplied===undefined) m.statsApplied = !!m.played;
+  });
+  return __result;
 }
 
 /* ── INDEX ── */
@@ -1990,31 +2000,81 @@ async function loadData(){
     .then(function(snap){
       if(snap.exists){
         var remote=snap.data();
-        if(remote.schedule&&remote.schedule.jornadas){
+
+        /* ── Formato nuevo: MEZCLA partidos remotos con los locales (nunca reemplaza de golpe, */
+        /* así datos remotos viejos/incompletos no pueden borrar partidos que sí están en el código) ── */
+        if(remote.schedule&&remote.schedule.jornadas&&remote.schedule.jornadas.length){
           remote.schedule.jornadas.forEach(function(rj){
+            if(!rj||!rj.id)return;
             var local=baseData.schedule.jornadas.find(function(lj){return lj.id===rj.id;});
-            if(local&&rj.played){local.played=true;local.homeScore=rj.homeScore;local.awayScore=rj.awayScore;}
+            if(local){
+              /* actualiza solo los campos que el remoto sí trae con contenido real */
+              if(rj.catId) local.catId=rj.catId;
+              if(rj.date)  local.date=rj.date;
+              if(rj.time)  local.time=rj.time;
+              if(rj.home)  local.home=rj.home;
+              if(rj.away)  local.away=rj.away;
+              if(rj.field) local.field=rj.field;
+              if(rj.jornada) local.jornada=rj.jornada;
+              local.played=rj.played||false;
+              local.homeScore=rj.homeScore||0;
+              local.awayScore=rj.awayScore||0;
+              local.statsApplied=rj.statsApplied||false;
+            } else if(rj.catId&&rj.home&&rj.away){
+              /* partido nuevo agregado desde el admin: solo lo agregamos si trae los datos mínimos */
+              baseData.schedule.jornadas.push({
+                id:rj.id, jornada:rj.jornada||1, catId:rj.catId,
+                date:rj.date||'', time:rj.time||'', home:rj.home, away:rj.away, field:rj.field||'',
+                played:rj.played||false, homeScore:rj.homeScore||0, awayScore:rj.awayScore||0,
+                statsApplied:rj.statsApplied||false
+              });
+            }
           });
         }
-        if(remote.playerStats){
-          Object.keys(remote.playerStats).forEach(function(pid){
-            var st=remote.playerStats[pid];
-            baseData.categories.forEach(function(cat){
-              cat.teams.forEach(function(team){
-                var p=team.players.find(function(x){return x.id===pid;});
-                if(p){p.stats.tdp=st.tdp||0;p.stats.pts=st.pts||0;p.stats.intc=st.intc||0;}
+        if(remote.teams){
+          baseData.categories.forEach(function(cat){
+            cat.teams.forEach(function(team){
+              var rt=remote.teams[team.id];
+              if(!rt)return;
+              team.wins=rt.wins||0; team.losses=rt.losses||0; team.pf=rt.pf||0; team.pa=rt.pa||0;
+              if(rt.coach!==undefined)team.coach=rt.coach;
+              if(rt.blurb!==undefined)team.blurb=rt.blurb;
+              if(rt.colorPrimary)team.colorPrimary=rt.colorPrimary;
+              if(rt.colorSecondary)team.colorSecondary=rt.colorSecondary;
+              if(rt.players){
+                team.players=rt.players.map(function(rp){
+                  return {id:rp.id,name:rp.name,number:rp.number||0,position:rp.position||'WR',
+                    photo:rp.photo||'',blurb:rp.blurb||'',
+                    stats:rp.stats||{tdp:0,pts:0,intc:0}};
+                });
+              }
+            });
+          });
+        }
+        if(remote.champions)baseData.champions=remote.champions;
+
+        /* ── Formato antiguo (compatibilidad): solo estadísticas sueltas ── */
+        if(!remote.teams){
+          if(remote.playerStats){
+            Object.keys(remote.playerStats).forEach(function(pid){
+              var st=remote.playerStats[pid];
+              baseData.categories.forEach(function(cat){
+                cat.teams.forEach(function(team){
+                  var p=team.players.find(function(x){return x.id===pid;});
+                  if(p){p.stats.tdp=st.tdp||0;p.stats.pts=st.pts||0;p.stats.intc=st.intc||0;}
+                });
               });
             });
-          });
-        }
-        if(remote.teamRecords){
-          Object.keys(remote.teamRecords).forEach(function(tid){
-            var rec=remote.teamRecords[tid];
-            baseData.categories.forEach(function(cat){
-              var t=cat.teams.find(function(x){return x.id===tid;});
-              if(t){t.wins=rec.wins||0;t.losses=rec.losses||0;t.pf=rec.pf||0;t.pa=rec.pa||0;}
+          }
+          if(remote.teamRecords){
+            Object.keys(remote.teamRecords).forEach(function(tid){
+              var rec=remote.teamRecords[tid];
+              baseData.categories.forEach(function(cat){
+                var t=cat.teams.find(function(x){return x.id===tid;});
+                if(t){t.wins=rec.wins||0;t.losses=rec.losses||0;t.pf=rec.pf||0;t.pa=rec.pa||0;}
+              });
             });
-          });
+          }
         }
         console.log('Datos cargados desde Firestore');
       }
@@ -2027,29 +2087,29 @@ async function persist(){
   DATA.updatedAt=Date.now();rebuildIndex();
   if(window._db){
     try{
-      var playerStats={};
+      var teams={};
       DATA.categories.forEach(function(cat){
         cat.teams.forEach(function(team){
-          team.players.forEach(function(p){
-            if(p.stats&&(p.stats.tdp||p.stats.pts||p.stats.intc)){
-              playerStats[p.id]={tdp:p.stats.tdp||0,pts:p.stats.pts||0,intc:p.stats.intc||0};
-            }
-          });
-        });
-      });
-      var teamRecords={};
-      DATA.categories.forEach(function(cat){
-        cat.teams.forEach(function(team){
-          if(team.wins||team.losses||team.pf||team.pa){
-            teamRecords[team.id]={wins:team.wins||0,losses:team.losses||0,pf:team.pf||0,pa:team.pa||0};
-          }
+          teams[team.id]={
+            wins:team.wins||0,losses:team.losses||0,pf:team.pf||0,pa:team.pa||0,
+            coach:team.coach||'',blurb:team.blurb||'',
+            colorPrimary:team.colorPrimary||'',colorSecondary:team.colorSecondary||'',
+            players:(team.players||[]).map(function(p){
+              return {id:p.id,name:p.name,number:p.number||0,position:p.position||'WR',
+                photo:p.photo||'',blurb:p.blurb||'',
+                stats:{tdp:(p.stats&&p.stats.tdp)||0,pts:(p.stats&&p.stats.pts)||0,intc:(p.stats&&p.stats.intc)||0}};
+            })
+          };
         });
       });
       var schedule={jornadas:DATA.schedule.jornadas.map(function(m){
-        return {id:m.id,played:m.played||false,homeScore:m.homeScore||0,awayScore:m.awayScore||0};
+        return {id:m.id,jornada:m.jornada||1,catId:m.catId||'',date:m.date||'',time:m.time||'',
+          home:m.home||'',away:m.away||'',field:m.field||'',
+          played:m.played||false,homeScore:m.homeScore||0,awayScore:m.awayScore||0,
+          statsApplied:m.statsApplied||false};
       })};
       await window._db.collection('flagmaz').doc('data').set(
-        {schedule:schedule,playerStats:playerStats,teamRecords:teamRecords,updatedAt:Date.now()},
+        {schedule:schedule,teams:teams,champions:DATA.champions||[],updatedAt:Date.now()},
         {merge:true}
       );
       console.log('Guardado en Firestore OK');
@@ -2062,13 +2122,52 @@ function initRealtimeSync(){
   window._db.collection('flagmaz').doc('data').onSnapshot(function(snap){
     if(!snap.exists||ADMIN)return;
     var remote=snap.data();
-    if(remote&&remote.schedule&&remote.schedule.jornadas){
+    if(!remote)return;
+    if(remote.schedule&&remote.schedule.jornadas&&remote.schedule.jornadas.length){
       remote.schedule.jornadas.forEach(function(rj){
+        if(!rj||!rj.id)return;
         var local=DATA.schedule.jornadas.find(function(lj){return lj.id===rj.id;});
-        if(local&&rj.played){local.played=true;local.homeScore=rj.homeScore||0;local.awayScore=rj.awayScore||0;}
+        if(local){
+          if(rj.catId) local.catId=rj.catId;
+          if(rj.date)  local.date=rj.date;
+          if(rj.time)  local.time=rj.time;
+          if(rj.home)  local.home=rj.home;
+          if(rj.away)  local.away=rj.away;
+          if(rj.field) local.field=rj.field;
+          if(rj.jornada) local.jornada=rj.jornada;
+          local.played=rj.played||false;
+          local.homeScore=rj.homeScore||0;
+          local.awayScore=rj.awayScore||0;
+          local.statsApplied=rj.statsApplied||false;
+        } else if(rj.catId&&rj.home&&rj.away){
+          DATA.schedule.jornadas.push({
+            id:rj.id, jornada:rj.jornada||1, catId:rj.catId,
+            date:rj.date||'', time:rj.time||'', home:rj.home, away:rj.away, field:rj.field||'',
+            played:rj.played||false, homeScore:rj.homeScore||0, awayScore:rj.awayScore||0,
+            statsApplied:rj.statsApplied||false
+          });
+        }
       });
-      rebuildIndex();render();
     }
+    if(remote.teams){
+      DATA.categories.forEach(function(cat){
+        cat.teams.forEach(function(team){
+          var rt=remote.teams[team.id];
+          if(!rt)return;
+          team.wins=rt.wins||0; team.losses=rt.losses||0; team.pf=rt.pf||0; team.pa=rt.pa||0;
+          if(rt.coach!==undefined)team.coach=rt.coach;
+          if(rt.blurb!==undefined)team.blurb=rt.blurb;
+          if(rt.players){
+            team.players=rt.players.map(function(rp){
+              return {id:rp.id,name:rp.name,number:rp.number||0,position:rp.position||'WR',
+                photo:rp.photo||'',blurb:rp.blurb||'',
+                stats:rp.stats||{tdp:0,pts:0,intc:0}};
+            });
+          }
+        });
+      });
+    }
+    rebuildIndex();render();
   });
 }
 
@@ -2409,6 +2508,36 @@ function findTeamInMatch(catId, teamName){
   var sw=cat.teams.find(function(t){return normStr(t.name).indexOf(tl)===0||tl.indexOf(normStr(t.name))===0;});
   return sw||null;
 }
+
+/* ── Actualiza automáticamente W/L y PF/PA de los equipos según el resultado de un partido ── */
+function applyMatchToRecords(m){
+  var home=findTeamInMatch(m.catId,m.home), away=findTeamInMatch(m.catId,m.away);
+  var hs=m.homeScore||0, as=m.awayScore||0;
+  if(home){
+    home.pf=(home.pf||0)+hs; home.pa=(home.pa||0)+as;
+    if(hs>as) home.wins=(home.wins||0)+1;
+    else if(hs<as) home.losses=(home.losses||0)+1;
+  }
+  if(away){
+    away.pf=(away.pf||0)+as; away.pa=(away.pa||0)+hs;
+    if(as>hs) away.wins=(away.wins||0)+1;
+    else if(as<hs) away.losses=(away.losses||0)+1;
+  }
+}
+function revertMatchFromRecords(m){
+  var home=findTeamInMatch(m.catId,m.home), away=findTeamInMatch(m.catId,m.away);
+  var hs=m.homeScore||0, as=m.awayScore||0;
+  if(home){
+    home.pf=Math.max(0,(home.pf||0)-hs); home.pa=Math.max(0,(home.pa||0)-as);
+    if(hs>as) home.wins=Math.max(0,(home.wins||0)-1);
+    else if(hs<as) home.losses=Math.max(0,(home.losses||0)-1);
+  }
+  if(away){
+    away.pf=Math.max(0,(away.pf||0)-as); away.pa=Math.max(0,(away.pa||0)-hs);
+    if(as>hs) away.wins=Math.max(0,(away.wins||0)-1);
+    else if(as<hs) away.losses=Math.max(0,(away.losses||0)-1);
+  }
+}
 function topPlayers(team, statKey, n){
   if(!team||!team.players||!team.players.length)return[];
   return team.players.slice().sort(function(a,b){
@@ -2563,7 +2692,7 @@ function showAddMatchModal(jornada){
       time:document.getElementById('f-time').value.trim(),
       home:home,away:away,
       field:document.getElementById('f-field').value.trim(),
-      played:false,homeScore:0,awayScore:0
+      played:false,homeScore:0,awayScore:0,statsApplied:false
     };
     if(!DATA.schedule)DATA.schedule={jornadas:[]};
     DATA.schedule.jornadas.push(match);
@@ -2589,16 +2718,19 @@ function showEditMatchModal(matchId){
     '<div class="modal-actions"><button class="btn btn-s" data-action="modal-close">Cancelar</button><button class="btn btn-p" id="b-s">Guardar</button></div>'
   );
   document.getElementById('b-s').onclick=async function(){
+    if(m.statsApplied){revertMatchFromRecords(m);}
     m.date=document.getElementById('f-date').value;
     m.time=document.getElementById('f-time').value.trim();
     m.field=document.getElementById('f-field').value.trim();
     m.homeScore=Math.max(0,parseInt(document.getElementById('f-hs').value)||0);
     m.awayScore=Math.max(0,parseInt(document.getElementById('f-as').value)||0);
     m.played=document.getElementById('f-played').checked;
-    closeModal();await persist();render();toast('Partido actualizado');
+    if(m.played){applyMatchToRecords(m);m.statsApplied=true;}else{m.statsApplied=false;}
+    closeModal();await persist();render();toast('Partido actualizado, ranking al día');
   };
   document.getElementById('b-d').onclick=async function(){
     if(!confirm('¿Eliminar este partido?'))return;
+    if(m.statsApplied){revertMatchFromRecords(m);}
     DATA.schedule.jornadas=DATA.schedule.jornadas.filter(function(x){return x.id!==matchId;});
     closeModal();await persist();render();toast('Partido eliminado');
   };
