@@ -148,6 +148,9 @@ input,select,textarea{font-family:inherit;}
 .rank-num.r1{background:var(--gold);color:var(--green);}
 .rank-num.r2{background:#DDD9CF;}
 .rank-num.r3{background:#E8C99C;}
+.rank-photo{width:38px;height:38px;border-radius:10px;flex-shrink:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-family:'Anton';font-size:13px;color:var(--white);}
+.crown-badge{display:inline-flex;vertical-align:-3px;color:var(--gold);filter:drop-shadow(0 1px 2px rgba(255,180,20,.5));}
+.crown-badge svg{width:14px;height:14px;}
 .rank-info{flex:1;min-width:0;}
 .rank-info h4{margin:0 0 2px;font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rank-info span{font-size:11px;color:var(--ink2);}
@@ -418,6 +421,10 @@ var IC={
 
 /* ── HELPERS ── */
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function nameWithCrown(name,playerId){
+  var crown=(IDX.leaders&&IDX.leaders[playerId])?' <span class="crown-badge" title="Líder de categoría">'+IC.crown+'</span>':'';
+  return esc(name)+crown;
+}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
 function slug(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
 function initials(n){var p=String(n).trim().split(/\s+/);return((p[0]||'')[0]||'')+((p[1]||'')[0]||'');}
@@ -1978,7 +1985,7 @@ function generateLeague(){
 
 /* ── INDEX ── */
 function rebuildIndex(){
-  IDX={teams:{},players:{},search:[]};
+  IDX={teams:{},players:{},search:[],leaders:{}};
   DATA.categories.forEach(function(cat){
     cat.teams.forEach(function(team){
       IDX.teams[team.id]={team:team,cat:cat};
@@ -1987,6 +1994,25 @@ function rebuildIndex(){
         IDX.players[p.id]={player:p,team:team,cat:cat};
         IDX.search.push({type:'player',id:p.id,name:p.name,sub:team.name+' · #'+p.number});
       });
+    });
+  });
+  /* ── Corona: jugador(es) #1 de cada estadística, por categoría ── */
+  DATA.categories.forEach(function(cat){
+    var catPlayers=[];
+    cat.teams.forEach(function(team){
+      team.players.forEach(function(p){catPlayers.push(p);});
+    });
+    STAT_DEFS.forEach(function(sd){
+      var max=0;
+      catPlayers.forEach(function(p){
+        var v=(p.stats&&p.stats[sd.key])||0;
+        if(v>max)max=v;
+      });
+      if(max>0){
+        catPlayers.forEach(function(p){
+          if(((p.stats&&p.stats[sd.key])||0)===max)IDX.leaders[p.id]=true;
+        });
+      }
     });
   });
 }
@@ -2388,7 +2414,7 @@ function rosterRowHtml(p,team){
   var bg=p.photo?'background-image:url(\''+esc(p.photo)+'\')':'background:'+team.colorPrimary;
   return '<a class="roster-row" data-route="#/jugador/'+p.id+'">'+
     '<div class="jersey" style="'+bg+'">'+(p.photo?'':p.number)+'</div>'+
-    '<div class="roster-info"><h4>'+esc(p.name)+'</h4><span>#'+p.number+'</span></div>'+
+    '<div class="roster-info"><h4>'+nameWithCrown(p.name,p.id)+'</h4><span>#'+p.number+'</span></div>'+
     IC.chevron+'</a>';
 }
 
@@ -2402,7 +2428,7 @@ function renderPlayer(pid){
     '<div class="content">'+adminBar()+
     '<div class="player-hero">'+
       '<div class="player-photo"'+lbAttr+' style="'+photoBg+'">'+(p.photo?'':p.number)+'</div>'+
-      '<div><h2 class="player-name">'+esc(p.name)+'</h2><span class="team-link">'+esc(cat.name)+' · <b>'+esc(team.name)+'</b></span></div>'+
+      '<div><h2 class="player-name">'+nameWithCrown(p.name,p.id)+'</h2><span class="team-link">'+esc(cat.name)+' · <b>'+esc(team.name)+'</b></span></div>'+
     '</div>'+
     (p.blurb?'<p class="blurb">'+esc(p.blurb)+'</p>':'')+
     '<div class="row-between"><h2 class="section-title">Estadísticas</h2>'+(ADMIN?'<button class="pencil-btn" data-action="edit-player" data-id="'+p.id+'">'+IC.pencil+'</button>':'')+
@@ -2628,8 +2654,8 @@ function renderMatchup(matchId){
     statsBlock='<div class="mu-stats-section">'+
       '<div class="mu-section-title">⭐ Líderes de estadísticas</div>'+
       allStats.filter(function(s){return s.home||s.away;}).map(function(s){
-        var hp=s.home?'#'+s.home.number+' '+esc(s.home.name)+' <b>'+s.home.stats[s.key]+'</b>':'—';
-        var ap=s.away?'<b>'+s.away.stats[s.key]+'</b> '+esc(s.away.name)+' #'+s.away.number:'—';
+        var hp=s.home?'#'+s.home.number+' '+nameWithCrown(s.home.name,s.home.id)+' <b>'+s.home.stats[s.key]+'</b>':'—';
+        var ap=s.away?'<b>'+s.away.stats[s.key]+'</b> '+nameWithCrown(s.away.name,s.away.id)+' #'+s.away.number:'—';
         return '<div class="mu-stat-row">'+
           '<div class="mu-stat-player home">'+hp+'</div>'+
           '<div class="mu-stat-label">'+esc(s.short)+'</div>'+
@@ -2656,9 +2682,9 @@ function renderMatchup(matchId){
       var photoBg=p.photo?'background-image:url(\''+esc(p.photo)+'\')':'background:'+team.colorPrimary;
       var photo='<div class="mu-mini-photo" style="'+photoBg+'">'+(p.photo?'':p.number)+'</div>';
       if(isHome){
-        return '<div class="mu-roster-row">'+ photo+'<div class="mu-roster-info"><b>#'+p.number+'</b> '+esc(p.name)+'</div>'+star+'</div>';
+        return '<div class="mu-roster-row">'+ photo+'<div class="mu-roster-info"><b>#'+p.number+'</b> '+nameWithCrown(p.name,p.id)+'</div>'+star+'</div>';
       }else{
-        return '<div class="mu-roster-row away">'+star+'<div class="mu-roster-info"><b>#'+p.number+'</b> '+esc(p.name)+'</div>'+photo+'</div>';
+        return '<div class="mu-roster-row away">'+star+'<div class="mu-roster-info"><b>#'+p.number+'</b> '+nameWithCrown(p.name,p.id)+'</div>'+photo+'</div>';
       }
     }).join('');
     return '<div class="mu-roster-col">'+
@@ -2775,7 +2801,7 @@ function searchHtml(q){
     var route=r.type==='team'?'#/equipo/'+r.id:'#/jugador/'+r.id;
     return '<a class="roster-row" data-route="'+route+'">'+
       '<div class="jersey" style="background:var(--green);display:flex;align-items:center;justify-content:center">'+(r.type==='team'?IC.shield:IC.user)+'</div>'+
-      '<div class="roster-info"><h4>'+esc(r.name)+'</h4><span>'+esc(r.sub)+'</span></div>'+IC.chevron+'</a>';
+      '<div class="roster-info"><h4>'+(r.type==='player'?nameWithCrown(r.name,r.id):esc(r.name))+'</h4><span>'+esc(r.sub)+'</span></div>'+IC.chevron+'</a>';
   }).join('');
 }
 
@@ -2803,9 +2829,12 @@ function buildRankHtml(){
     if(!list.length)return emptyHtml();
     return list.map(function(x,i){
       var rc=i===0?'r1':i===1?'r2':i===2?'r3':'';
+      var photoBg=x.player.photo?'background-image:url(\''+esc(x.player.photo)+'\')':'background:'+x.team.colorPrimary;
+      var avatar='<div class="rank-photo" style="'+photoBg+'">'+(x.player.photo?'':x.player.number)+'</div>';
       return'<a class="rank-row" data-route="#/jugador/'+x.player.id+'">'+
         '<div class="rank-num '+rc+'">'+(i+1)+'</div>'+
-        '<div class="rank-info"><h4>'+esc(x.player.name)+'</h4><span>'+esc(x.team.name)+' · '+esc(x.cat.name)+'</span></div>'+
+        avatar+
+        '<div class="rank-info"><h4>'+nameWithCrown(x.player.name,x.player.id)+'</h4><span>'+esc(x.team.name)+' · '+esc(x.cat.name)+'</span></div>'+
         '<div class="rank-val">'+x.player.stats[sd.key]+'<small>'+sd.short+'</small></div></a>';
     }).join('');
   }
