@@ -561,7 +561,23 @@ function generateLeague(){
   ];
   /* Pieles Tribe logo */
   var pt=cats[0].teams.find(function(t){return t.id==='pt-vg';});
-  if(pt){pt.cover=PIELES_TRIBE_SRC;pt.colorPrimary='#6B1A1A';pt.colorSecondary='#C8A400';}
+  if(pt){pt.cover=PIELES_TRIBE_SRC;pt.colorPrimary='#6B1A1A';pt.colorSecondary='#C8A400';
+    pt.coach='Guillermo Báez de la Mora';
+    pt.players=[
+      mkP('rtvg1','Guillermo Báez de la Mora',40),
+      mkP('rtvg2','Marx Saucedo Perez',55),
+      mkP('rtvg3','Guillermo Alberto Báez León',42),
+      mkP('rtvg4','Gabriel Armando Lizárraga Lizárraga',6),
+      mkP('rtvg5','Heber Saul Ríos Medina',10),
+      mkP('rtvg6','Praxedis Zamora Cedano',13),
+      mkP('rtvg7','Luis Guerra Madrigal',0),
+      mkP('rtvg8','Jesús Hiram Zatarain Valencia',9),
+      mkP('rtvg9','José Ahmed Morales Aguilar',0),
+      mkP('rtvg10','Roberto Bandilla Ulloa',17),
+      mkP('rtvg11','Orlando',0),
+      mkP('rtvg12','Israel',0)
+    ];
+  }
   cats[1].teams=[
     mkTeam('hal-fg','Halconas'),mkTeam('hu-fg','Hunters'),
     mkTeam('bl-fg','Blitz'),mkTeam('oz-fg','Ozzma Kappa'),
@@ -1262,6 +1278,20 @@ function generateLeague(){
     mkP('duu18f12','Karla Medina',55),
     mkP('duu18f13','Fernanda Ruiz',11)
   ];}
+  /* ── Panteras - U18 Femenil ── */
+  var panU18F=cats[3].teams.find(function(t){return t.id==='pan-u18f';});
+  if(panU18F){panU18F.players=[
+    mkP('panu18f1','Isabella Jimenez',24),
+    mkP('panu18f2','Lizeth Barrios',19),
+    mkP('panu18f3','Romina Perales',22),
+    mkP('panu18f4','Nataly Sanchez',7),
+    mkP('panu18f5','Melani Carrillo',3),
+    mkP('panu18f6','Eimy Barron',25),
+    mkP('panu18f7','Romina Martinez',77),
+    mkP('panu18f8','Lia Rios',4),
+    mkP('panu18f9','Aglaet Reyes',7),
+    mkP('panu18f10','Brenda Guido',23)
+  ];}
   /* ── Durango - U18 Mixto ── */
   var duU18M=cats[8].teams.find(function(t){return t.id==='du-u18m';});
   if(duU18M){duU18M.players=[
@@ -1883,7 +1913,54 @@ function generateLeague(){
       {id:'j2-s-u18f-04',jornada:2,catId:'u18-femenil-3',date:'2026-08-02',time:'4:50 PM',home:'Panteras',away:'Avengers',field:'Campo 3',played:false,homeScore:0,awayScore:0},
       {id:'j2-s-u18f-05',jornada:2,catId:'u18-femenil-3',date:'2026-08-02',time:'4:50 PM',home:'Cetis 127',away:'Aztecas',field:'Campo 4',played:false,homeScore:0,awayScore:0},
       {id:'j2-s-u18f-06',jornada:2,catId:'u18-femenil-3',date:'2026-08-02',time:'5:40 PM',home:'Eternals',away:'Redskins',field:'Campo 1',played:false,homeScore:0,awayScore:0},
-      {id:'j2-s-u18f-07',jornada:2,catId:'u18-femenil-3',date:'2026-08-02',time:'5:40 PM',home:'Black Panther',away:'Linces',field:'Campo 3',played:false,homeScore:0,awayScore:0}
+      {id:'j2-s-u18f-07',jornada:2,catId:'u18-femenil-3',date:'2026-08-02',time:'5:40 PM',home:'Black Panther',away:'Linces',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-vg-01',jornada:3,catId:'varonil-golden-0',date:'2026-08-08',time:'8:10 PM',home:'Aztecas',away:'Pieles Rojas',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-vg-02',jornada:3,catId:'varonil-golden-0',date:'2026-08-08',time:'8:10 PM',home:'Pieles Tribe',away:'Caballeros',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-vg-03',jornada:3,catId:'varonil-golden-0',date:'2026-08-08',time:'8:10 PM',home:'Panteras White',away:'Linces',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-vg-04',jornada:3,catId:'varonil-golden-0',date:'2026-08-08',time:'7:20 PM',home:'Incógnito',away:'Jaibas',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fg-01',jornada:3,catId:'femenil-golden-1',date:'2026-08-07',time:'8:10 PM',home:'Halconas',away:'Black Panther',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fg-02',jornada:3,catId:'femenil-golden-1',date:'2026-08-08',time:'7:20 PM',home:'Blitz',away:'Redskins',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fg-03',jornada:3,catId:'femenil-golden-1',date:'2026-08-08',time:'8:10 PM',home:'Hunters',away:'Ozzma Kappa',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fg-04',jornada:3,catId:'femenil-golden-1',date:'2026-08-12',time:'7:40 PM',home:'Blitz',away:'Hunters',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fg-05',jornada:3,catId:'femenil-golden-1',date:'2026-08-12',time:'8:10 PM',home:'Ozzma Kappa',away:'Halconas',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-01',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'6:30 PM',home:'Halconas',away:'Hunters Blue',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-02',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'7:20 PM',home:'Upsin',away:'Aztecas',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-03',jornada:3,catId:'femenil-silver-2',date:'2026-08-08',time:'6:30 PM',home:'Eternals',away:'Hunters White',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-04',jornada:3,catId:'femenil-silver-2',date:'2026-08-12',time:'8:30 PM',home:'Eternals',away:'Black Panthers',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-fs-05',jornada:3,catId:'femenil-silver-2',date:'2026-08-12',time:'7:40 PM',home:'Black Panthers',away:'Linces',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16m-01',jornada:3,catId:'u16-mixto-9',date:'2026-08-07',time:'6:30 PM',home:'Hunters',away:'Redskins',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16m-02',jornada:3,catId:'u16-mixto-9',date:'2026-08-07',time:'6:30 PM',home:'Black Panthers',away:'Aztecas',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18m-01',jornada:3,catId:'u18-mixto-8',date:'2026-08-07',time:'6:30 PM',home:'Pica Fresas',away:'Halcones',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18m-02',jornada:3,catId:'u18-mixto-8',date:'2026-08-07',time:'7:20 PM',home:'Avengers',away:'Aztecas',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-mg-01',jornada:3,catId:'mixto-golden-6',date:'2026-08-07',time:'7:20 PM',home:'Only Flags',away:'Halcones',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-mg-02',jornada:3,catId:'mixto-golden-6',date:'2026-08-07',time:'7:20 PM',home:'Pecho Fríos',away:'Redskins',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-mg-03',jornada:3,catId:'mixto-golden-6',date:'2026-08-07',time:'8:10 PM',home:'Aztecas',away:'Wild Angels',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-mg-04',jornada:3,catId:'mixto-golden-6',date:'2026-08-07',time:'8:10 PM',home:'Hunters White',away:'Jaibas Bravas',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-ms-01',jornada:3,catId:'mixto-silver-7',date:'2026-08-07',time:'8:10 PM',home:'Cobras Blancas',away:'Aztecas',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-ms-02',jornada:3,catId:'mixto-silver-7',date:'2026-08-07',time:'6:30 PM',home:'Cobras Negras',away:'Cobras Blancas',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-ms-03',jornada:3,catId:'mixto-silver-7',date:'2026-08-07',time:'7:20 PM',home:'Hunters Blue',away:'Halcones',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-01',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'4:00 PM',home:'Redskins Oro',away:'Redskins Amarillo',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-02',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'4:00 PM',home:'Cobras Negras',away:'Avengers',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-03',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'4:00 PM',home:'Halconas Yellow',away:'Halconas Blanco',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-04',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'4:50 PM',home:'Halconas Yellow',away:'Redskins Blanco',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-05',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'4:00 PM',home:'Aztecas',away:'Hunters',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-06',jornada:3,catId:'u14-femenil-5',date:'2026-08-08',time:'5:40 PM',home:'Redskins Guinda',away:'Halconas Blanco',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-07',jornada:3,catId:'u14-femenil-5',date:'2026-08-12',time:'6:00 PM',home:'Cobras Negras',away:'Redskins Guinda',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-08',jornada:3,catId:'u14-femenil-5',date:'2026-08-12',time:'6:00 PM',home:'Redskins Amarillo',away:'Avengers',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u14f-09',jornada:3,catId:'u14-femenil-5',date:'2026-08-12',time:'6:50 PM',home:'Halconas Black',away:'Halconas Blanco',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-01',jornada:3,catId:'u16-femenil-4',date:'2026-08-08',time:'4:50 PM',home:'Aztecas',away:'Hunters',field:'Campo 4',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-02',jornada:3,catId:'u16-femenil-4',date:'2026-08-08',time:'5:40 PM',home:'Halconas Yellow',away:'Eternals',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-03',jornada:3,catId:'u16-femenil-4',date:'2026-08-08',time:'5:40 PM',home:'Linces',away:'Redskins Amarillo',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-04',jornada:3,catId:'u16-femenil-4',date:'2026-08-08',time:'5:40 PM',home:'Redskins Guinda',away:'Redskins Blanco',field:'Campo 3',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-05',jornada:3,catId:'u16-femenil-4',date:'2026-08-12',time:'6:50 PM',home:'Eternals',away:'Redskins Blanco',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-06',jornada:3,catId:'u16-femenil-4',date:'2026-08-12',time:'6:50 PM',home:'Black Panthers',away:'Halconas Black',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u16f-07',jornada:3,catId:'u16-femenil-4',date:'2026-08-12',time:'7:40 PM',home:'Halconas Black',away:'Redskins Amarillo',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-01',jornada:3,catId:'u18-femenil-3',date:'2026-08-08',time:'4:50 PM',home:'Redskins',away:'Avengers',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-02',jornada:3,catId:'u18-femenil-3',date:'2026-08-08',time:'6:30 PM',home:'Halconas',away:'Aztecas',field:'Campo 1',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-03',jornada:3,catId:'u18-femenil-3',date:'2026-08-08',time:'4:50 PM',home:'Eternals Pink',away:'Eternals Black',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-04',jornada:3,catId:'u18-femenil-3',date:'2026-08-08',time:'6:30 PM',home:'Eternals',away:'Panteras',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-05',jornada:3,catId:'u18-femenil-3',date:'2026-08-08',time:'7:20 PM',home:'Linces',away:'Eternals Black',field:'Campo 2',played:false,homeScore:0,awayScore:0},
+      {id:'j3-u18f-06',jornada:3,catId:'u18-femenil-3',date:'2026-08-12',time:'6:00 PM',home:'Black Panther',away:'Cetis 127',field:'Campo 2',played:false,homeScore:0,awayScore:0}
     ]},
     updatedAt:Date.now()
   };
