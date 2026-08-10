@@ -2896,6 +2896,32 @@ function headToHeadRecord(catId,teamA,teamB){
 
 /* ── Orden de la tabla: 1) victorias  2) si son 2 equipos empatados, el que le ganó al otro  */
 /* 3) si son 3+ equipos empatados (o el enfrentamiento directo también está empatado), diferencia de puntos  4) menos derrotas ── */
+/* ── ¿Existe un ciclo real de enfrentamientos dentro del grupo empatado?  */
+/* (A le ganó a B, B a C, C a A ... ) Solo en ese caso el dominio directo deja de ser confiable. ── */
+function groupHasCycle(catId,group){
+  var beats={};
+  group.forEach(function(a){
+    beats[a.id]={};
+    group.forEach(function(b){
+      if(a.id===b.id)return;
+      var r=headToHeadRecord(catId,a,b);
+      if(r.aw>r.bw)beats[a.id][b.id]=true;
+    });
+  });
+  var visiting={},visited={};
+  function dfs(id){
+    if(visiting[id])return true;
+    if(visited[id])return false;
+    visiting[id]=true;
+    for(var next in beats[id]){if(dfs(next))return true;}
+    visiting[id]=false;
+    visited[id]=true;
+    return false;
+  }
+  for(var id in beats){if(dfs(id))return true;}
+  return false;
+}
+
 function sortStandings(cat){
   var byWins={};
   cat.teams.forEach(function(t){var w=t.wins||0;(byWins[w]=byWins[w]||[]).push(t);});
@@ -2903,16 +2929,17 @@ function sortStandings(cat){
   var result=[];
   winKeys.forEach(function(w){
     var group=byWins[w];
-    if(group.length===2){
+    if(group.length>1){
+      /* dominio directo por pareja: si dos equipos empatados se enfrentaron, manda quien ganó. */
+      /* Esto aplica sin importar cuántos otros equipos compartan el mismo récord. */
+      /* Solo se ignora si dentro del grupo hay un ciclo real de resultados (3+ equipos que se */
+      /* ganaron entre ellos en círculo) — ahí sí se va directo a diferencia de puntos. */
+      var cyclic=group.length>=3&&groupHasCycle(cat.id,group);
       group.sort(function(a,b){
-        var r=headToHeadRecord(cat.id,a,b);
-        if(r.aw!==r.bw)return r.bw-r.aw;
-        var dA=(a.pf||0)-(a.pa||0),dB=(b.pf||0)-(b.pa||0);
-        if(dB!==dA)return dB-dA;
-        return a.losses-b.losses;
-      });
-    }else if(group.length>1){
-      group.sort(function(a,b){
+        if(!cyclic){
+          var r=headToHeadRecord(cat.id,a,b);
+          if(r.aw!==r.bw)return r.bw-r.aw;
+        }
         var dA=(a.pf||0)-(a.pa||0),dB=(b.pf||0)-(b.pa||0);
         if(dB!==dA)return dB-dA;
         return a.losses-b.losses;
