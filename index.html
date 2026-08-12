@@ -2242,7 +2242,12 @@ function closeLb(){document.getElementById('lightbox').classList.remove('open');
 
 /* ── ROUTER ── */
 function route(){return(location.hash||'#/').replace(/^#\//,'').split('/').filter(Boolean);}
-function go(h){location.hash=h;}
+function go(h){
+  /* si ya estamos en esa misma ruta, cambiar el hash no dispara 'hashchange' y la pantalla */
+  /* no se refresca sola (por eso un jugador o partido recién agregado no se veía hasta que */
+  /* algo más forzaba un render). Si el hash no cambia, forzamos el render manualmente. */
+  if(location.hash===h){render();}else{location.hash=h;}
+}
 window.addEventListener('hashchange',render);
 
 /* ── COUNTS ── */
