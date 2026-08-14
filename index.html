@@ -788,7 +788,21 @@ function generateLeague(){
 
   /* Hunters — U16 Mixto */
   var huU16M=cats[9].teams.find(function(t){return t.id==='hu-u16m';});
-  if(huU16M){huU16M.cover=HUNTERS_M_SRC;huU16M.coach='Norberto Robledo';}
+  if(huU16M){huU16M.cover=HUNTERS_M_SRC;huU16M.coach='Norberto Robledo';
+    huU16M.players=[
+      mkP('huu16m1','Alexis Guadalupe Aragón Atilano',4),
+      mkP('huu16m2','Angel Antonio Aragón Atilano',28),
+      mkP('huu16m3','Isaac Misael Orozco Torres',77),
+      mkP('huu16m4','Angel Enrique Avila Garcia',27),
+      mkP('huu16m5','María Alejandra Bañuelos Fonseca',42),
+      mkP('huu16m6','Hally Romina Valenzuela Luna',24),
+      mkP('huu16m7','Miranda del Carmen Higuera Rentera',40),
+      mkP('huu16m8','Ximena Tirado Chávez',68),
+      mkP('huu16m9','Angely Karina Mendivil Meza',89),
+      mkP('huu16m10','Carmen Nicole Campa Valdez',29),
+      mkP('huu16m11','Hernán Martinez Camacho',11)
+    ];
+  }
   /* Hunters — U14 Femenil */
   var huU14F=cats[5].teams.find(function(t){return t.id==='hu-u14f';});
   if(huU14F){
@@ -1290,6 +1304,37 @@ function generateLeague(){
     mkP('duu18f11','Jazmín Nuñez',31),
     mkP('duu18f12','Karla Medina',55),
     mkP('duu18f13','Fernanda Ruiz',11)
+  ];}
+  /* ── Redskins - U18 Femenil ── */
+  var rsU18F=cats[3].teams.find(function(t){return t.id==='rs-u18f';});
+  if(rsU18F){rsU18F.players=[
+    mkP('rsu18f1','Naomi Tirado Carreón',6),
+    mkP('rsu18f2','Fatima Sarahí Chamlati Pérez',21),
+    mkP('rsu18f3','Romina Lizarraga Escamillas',3),
+    mkP('rsu18f4','Renata Castro Páez',8),
+    mkP('rsu18f5','Melanie Yinell Maturin López',23),
+    mkP('rsu18f6','Vanessa Yarazet Hernández Morales',5),
+    mkP('rsu18f7','Sarah Ximena Camacho Nieto',15),
+    mkP('rsu18f8','Nitxia Ximena Quintana Ramírez',10),
+    mkP('rsu18f9','Aura Renata Gonzalez Núñez',14),
+    mkP('rsu18f10','Abril Guadalupe Beltrán Cuevas',2),
+    mkP('rsu18f11','Ximena Naomi Ochoa Ortega',13),
+    mkP('rsu18f12','Valentina Peña de Dios',81),
+    mkP('rsu18f13','Kyanna Fernanda Wong López',23)
+  ];}
+  /* ── Eternals - U18 Femenil ── */
+  var etU18F=cats[3].teams.find(function(t){return t.id==='et-u18f';});
+  if(etU18F){etU18F.coach='Carlos Elioth Camacho Rendon';etU18F.players=[
+    mkP('etu18f1','Yulianna Lizeth Lafarga Luna',6),
+    mkP('etu18f2','Karla Ainek Hijar Montoya',11),
+    mkP('etu18f3','Yeimi Nicole Payan Nuñez',21),
+    mkP('etu18f4','Rebeca Osuna Gil',22),
+    mkP('etu18f5','Ivanna Cristina Lizarraga Osuna',37),
+    mkP('etu18f6','Claudia Gicela Araiza Portillo',51),
+    mkP('etu18f7','Arianne Mociño Godinez',61),
+    mkP('etu18f8','Valentina Lopez Fonseca',19),
+    mkP('etu18f9','Yoselin Arleth Castro Ley',5),
+    mkP('etu18f10','Aynora Gomez Luna Peraza',28)
   ];}
   /* ── Panteras - U18 Femenil ── */
   var panU18F=cats[3].teams.find(function(t){return t.id==='pan-u18f';});
@@ -2852,6 +2897,8 @@ function buildRankHtml(){
     var sd=STAT_DEFS.filter(function(s){return s.key===rankState.stat;})[0]||STAT_DEFS[0];
     var list=Object.keys(IDX.players).map(function(k){return IDX.players[k];});
     if(rankState.catFilter!=='all')list=list.filter(function(x){return x.cat.id===rankState.catFilter;});
+    /* solo jugadores con al menos 1 en la estadística seleccionada */
+    list=list.filter(function(x){return (x.player.stats[sd.key]||0)>0;});
     list.sort(function(a,b){return b.player.stats[sd.key]-a.player.stats[sd.key];});
     list=list.slice(0,25);
     if(!list.length)return emptyHtml();
