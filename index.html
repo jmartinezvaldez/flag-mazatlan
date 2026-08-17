@@ -2767,7 +2767,7 @@ function openModal(html){
   modalRoot.innerHTML='<div class="modal-backdrop" data-action="modal-close"><div class="modal-card" id="mc"></div></div>';
   modalRoot.classList.add('open');
   document.getElementById('mc').innerHTML=html;
-  document.getElementById('mc').addEventListener('click',function(e){e.stopPropagation();});
+  document.getElementById('mc').addEventListener('click',function(e){if(!e.target.closest('[data-route],[data-action]'))e.stopPropagation();});
 }
 function closeModal(){modalRoot.classList.remove('open');modalRoot.innerHTML='';}
 
