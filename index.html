@@ -1946,8 +1946,11 @@ async function loadData(){
 
         /* 2b. Campo "teams" (formato ya usado en producción: id -> equipo completo
            con roster). Es la fuente más completa que existe hoy en Firestore
-           — sobreescribe récord/colores/coach y reemplaza el roster completo
-           cuando el remoto trae jugadores. */
+           — sobreescribe récord/colores/coach y reemplaza la LISTA de jugadores
+           (identidad: nombre/número/posición) cuando el remoto trae roster.
+           Las ESTADÍSTICAS de esos jugadores se aplican más abajo, después de
+           remote.playerStats, para que el roster importado (más reciente)
+           siempre gane sobre el mapa playerStats (que puede estar desactualizado). */
         if(remote.teams){
           baseData.categories.forEach(function(cat){
             cat.teams.forEach(function(t){
@@ -1960,7 +1963,7 @@ async function loadData(){
               if(rt.blurb)t.blurb=rt.blurb;
               if(rt.players&&rt.players.length){
                 t.players=rt.players.map(function(p){
-                  return{id:p.id,name:p.name,number:p.number||0,position:p.position||'',photo:p.photo||'',blurb:p.blurb||'',stats:{tdp:(p.stats&&p.stats.tdp)||0,pts:(p.stats&&p.stats.pts)||0,intc:(p.stats&&p.stats.intc)||0}};
+                  return{id:p.id,name:p.name,number:p.number||0,position:p.position||'',photo:p.photo||'',blurb:p.blurb||'',stats:{tdp:0,pts:0,intc:0},_importedStats:{tdp:(p.stats&&p.stats.tdp)||0,pts:(p.stats&&p.stats.pts)||0,intc:(p.stats&&p.stats.intc)||0}};
                 });
               }
             });
@@ -2025,6 +2028,19 @@ async function loadData(){
             });
           });
         }
+
+        /* 6b. Las estadísticas que vinieron incrustadas en "teams" (2b) tienen
+           la última palabra: son el origen más reciente de datos reales. */
+        baseData.categories.forEach(function(cat){
+          cat.teams.forEach(function(team){
+            team.players.forEach(function(p){
+              if(p._importedStats){
+                p.stats=p._importedStats;
+                delete p._importedStats;
+              }
+            });
+          });
+        });
 
         /* 7. Calendario: unión por id — actualiza los que existen, agrega los que no */
         if(remote.schedule&&remote.schedule.jornadas){
