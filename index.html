@@ -2763,10 +2763,13 @@ function buildRankHtml(){
     if(!list.length)return emptyHtml();
     return list.map(function(x,i){
       var rc=i===0?'r1':i===1?'r2':i===2?'r3':'';
-      return'<a class="rank-row" data-route="#/jugador/'+x.player.id+'">'+
+      var p=x.player,team=x.team;
+      var bg=p.photo?'background-image:url(\''+esc(p.photo)+'\')':'background:'+team.colorPrimary;
+      return'<a class="rank-row" data-route="#/jugador/'+p.id+'">'+
         '<div class="rank-num '+rc+'">'+(i+1)+'</div>'+
-        '<div class="rank-info"><h4>'+esc(x.player.name)+'</h4><span>'+esc(x.team.name)+' · '+esc(x.cat.name)+'</span></div>'+
-        '<div class="rank-val">'+x.player.stats[sd.key]+'<small>'+sd.short+'</small></div></a>';
+        '<div class="jersey" style="'+bg+'">'+(p.photo?'':p.number)+'</div>'+
+        '<div class="rank-info"><h4>'+esc(p.name)+'</h4><span>'+esc(team.name)+' · '+esc(x.cat.name)+'</span></div>'+
+        '<div class="rank-val">'+p.stats[sd.key]+'<small>'+sd.short+'</small></div></a>';
     }).join('');
   }
 
@@ -2934,7 +2937,19 @@ function openModal(html){
   modalRoot.innerHTML='<div class="modal-backdrop" data-action="modal-close"><div class="modal-card" id="mc"></div></div>';
   modalRoot.classList.add('open');
   document.getElementById('mc').innerHTML=html;
-  document.getElementById('mc').addEventListener('click',function(e){if(!e.target.closest('[data-route],[data-action]'))e.stopPropagation();});
+  document.getElementById('mc').addEventListener('click',function(e){
+    /* closest() no se detiene en los bordes de #mc: si dejáramos que siguiera
+       subiendo, encontraría el data-action="modal-close" del fondo oscuro y
+       CUALQUIER clic adentro (un input, una etiqueta, espacio vacío) cerraría
+       el modal. Por eso acotamos la búsqueda manualmente a los elementos
+       propios del recuadro (botones/links con data-action o data-route). */
+    var mc=this,el=e.target,hit=null;
+    while(el&&el!==mc){
+      if(el.hasAttribute&&(el.hasAttribute('data-action')||el.hasAttribute('data-route'))){hit=el;break;}
+      el=el.parentElement;
+    }
+    if(!hit)e.stopPropagation();
+  });
 }
 function closeModal(){modalRoot.classList.remove('open');modalRoot.innerHTML='';}
 
