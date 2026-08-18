@@ -2758,6 +2758,7 @@ function buildRankHtml(){
     var sd=STAT_DEFS.filter(function(s){return s.key===rankState.stat;})[0]||STAT_DEFS[0];
     var list=Object.keys(IDX.players).map(function(k){return IDX.players[k];});
     if(rankState.catFilter!=='all')list=list.filter(function(x){return x.cat.id===rankState.catFilter;});
+    list=list.filter(function(x){return (x.player.stats[sd.key]||0)>0;});
     list.sort(function(a,b){return b.player.stats[sd.key]-a.player.stats[sd.key];});
     list=list.slice(0,25);
     if(!list.length)return emptyHtml();
@@ -2788,29 +2789,57 @@ function buildRankHtml(){
   return html||emptyHtml();
 }
 
+/* Calcula G/P/PF/PC de un equipo a partir de los partidos jugados del
+   calendario (por nombre, misma convención que usa el resto de la app).
+   Si el equipo no tiene ningún partido capturado en el calendario, se usa
+   como respaldo el récord manual de su ficha (para resultados viejos que
+   nunca se cargaron como partido). Así, subir un marcador en el calendario
+   ya alimenta la tabla de posiciones sin tener que editarla aparte. */
+function recordFromSchedule(catId,teamName){
+  var rec={wins:0,losses:0,ties:0,pf:0,pa:0,played:0};
+  (DATA.schedule?DATA.schedule.jornadas:[]).forEach(function(m){
+    if(m.catId!==catId||!m.played)return;
+    var isHome=m.home===teamName, isAway=m.away===teamName;
+    if(!isHome&&!isAway)return;
+    var pf=isHome?(m.homeScore||0):(m.awayScore||0);
+    var pa=isHome?(m.awayScore||0):(m.homeScore||0);
+    rec.played++;rec.pf+=pf;rec.pa+=pa;
+    if(pf>pa)rec.wins++;else if(pa>pf)rec.losses++;else rec.ties++;
+  });
+  return rec;
+}
 function buildStandingsTable(catId){
   var cat=DATA.categories.find(function(c){return c.id===catId;});
   if(!cat||!cat.teams.length)return emptyHtml();
 
-  var teams=cat.teams.slice().sort(function(a,b){
+  var computed=cat.teams.map(function(t){
+    var r=recordFromSchedule(catId,t.name);
+    if(r.played>0){
+      return {team:t,wins:r.wins,losses:r.losses,pf:r.pf,pa:r.pa};
+    }
+    return {team:t,wins:t.wins||0,losses:t.losses||0,pf:t.pf||0,pa:t.pa||0};
+  });
+
+  computed.sort(function(a,b){
     if(b.wins!==a.wins)return b.wins-a.wins;
-    var dA=(a.pf||0)-(a.pa||0), dB=(b.pf||0)-(b.pa||0);
+    var dA=a.pf-a.pa, dB=b.pf-b.pa;
     if(dB!==dA)return dB-dA;
     return a.losses-b.losses;
   });
 
-  var rows=teams.map(function(t,i){
-    var pj=(t.wins||0)+(t.losses||0);
-    var pf=t.pf||0, pa=t.pa||0, dif=pf-pa;
+  var rows=computed.map(function(x,i){
+    var t=x.team;
+    var pj=x.wins+x.losses;
+    var pf=x.pf, pa=x.pa, dif=pf-pa;
     var difStr=(dif>0?'+':'')+dif;
-    var isTop=i===0&&t.wins>0;
+    var isTop=i===0&&x.wins>0;
     var logo=t.cover?'<img src="'+esc(t.cover)+'" style="width:22px;height:22px;border-radius:6px;object-fit:cover;vertical-align:middle;margin-right:6px;">':'<span class="stand-dot" style="background:'+t.colorPrimary+'"></span>';
     return '<tr class="stand-row'+(isTop?' stand-top':'')+'" data-route="#/equipo/'+t.id+'">'+
       '<td class="stand-pos">'+(i+1)+'</td>'+
       '<td class="stand-team">'+logo+'<span>'+esc(t.name)+'</span></td>'+
       '<td class="stand-num">'+pj+'</td>'+
-      '<td class="stand-num stand-g">'+t.wins+'</td>'+
-      '<td class="stand-num stand-p">'+t.losses+'</td>'+
+      '<td class="stand-num stand-g">'+x.wins+'</td>'+
+      '<td class="stand-num stand-p">'+x.losses+'</td>'+
       '<td class="stand-num">'+pf+'</td>'+
       '<td class="stand-num">'+pa+'</td>'+
       '<td class="stand-num stand-dif'+(dif>0?' stand-pos-dif':dif<0?' stand-neg-dif':'')+'">'+difStr+'</td>'+
