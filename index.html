@@ -2791,9 +2791,12 @@ function buildRankHtml(){
    ya alimenta la tabla de posiciones sin tener que editarla aparte. */
 function recordFromSchedule(catId,teamName){
   var rec={wins:0,losses:0,ties:0,pf:0,pa:0,played:0};
+  var tl=normStr(teamName);
   (DATA.schedule?DATA.schedule.jornadas:[]).forEach(function(m){
     if(m.catId!==catId||!m.played)return;
-    var isHome=m.home===teamName, isAway=m.away===teamName;
+    /* comparar sin acentos: en la base real hay variantes como
+       "Pecho Frios" vs "Pecho Fríos" o "Incognito" vs "Incógnito" */
+    var isHome=m.home&&normStr(m.home)===tl, isAway=m.away&&normStr(m.away)===tl;
     if(!isHome&&!isAway)return;
     var pf=isHome?(m.homeScore||0):(m.awayScore||0);
     var pa=isHome?(m.awayScore||0):(m.homeScore||0);
