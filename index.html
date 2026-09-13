@@ -1,4 +1,4 @@
-[index.html.html](https://github.com/user-attachments/files/32158331/index.html.html)
+
 <!doctype html>
 <html lang="es">
 
@@ -4344,7 +4344,7 @@
             var label = isPlayoff ? 'Playoffs' : isSemis ? 'Semifinales' : isFinal ? 'Finales' : 'Jornada ' + jornada;
             var icon = isPlayoff ? '🏆' : isSemis ? '🥈' : isFinal ? '🥇' : '🏈';
             var matches = (sched.jornadas || []).filter(function (m) {
-                return m.jornada === jornada && (catFilter === 'all' || m.catId === catFilter);
+                return String(m.jornada) === String(jornada) && (catFilter === 'all' || m.catId === catFilter);
             });
 
             if (!matches.length) {
